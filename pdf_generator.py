@@ -4,11 +4,23 @@ from reportlab.lib import colors
 from reportlab.lib.units import cm
 from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, PageBreak, Image, 
-    Table, TableStyle, LongTable, KeepTogether
+    Table, TableStyle, LongTable, KeepTogether, Flowable
 )
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT
 import os
+
+
+class BookmarkAnchor(Flowable):
+    """Flowable invisible que registra un bookmark/anchor en el PDF."""
+    def __init__(self, name):
+        Flowable.__init__(self)
+        self.name = name
+        self.width = 0
+        self.height = 0
+
+    def draw(self):
+        self.canv.bookmarkHorizontal(self.name, 0, 0)
 
 # Colores del diseño
 COLOR_AZUL_OSCURO = '#0d233a'
@@ -317,9 +329,8 @@ def generate_presentation_pdf(
     # SECCIÓN: RESUMEN
     # ========================================
     if text_sections.get('resumen'):
+        story.append(BookmarkAnchor("sec_resumen"))
         story.append(_section_header_table("Resumen"))
-        # Add bookmark anchor
-        story[-1]._bookmarkName = "sec_resumen"
         story.append(Spacer(1, 0.8 * cm))
         
         resumen_text = text_sections['resumen'].replace('\n', '<br/>')
@@ -330,8 +341,8 @@ def generate_presentation_pdf(
     # SECCIÓN: ESTUDIO DE MERCADO
     # ========================================
     if text_sections.get('estudio_mercado'):
+        story.append(BookmarkAnchor("sec_estudio"))
         story.append(_section_header_table("Estudio de Mercado"))
-        story[-1]._bookmarkName = "sec_estudio"
         story.append(Spacer(1, 0.8 * cm))
         
         estudio_text = text_sections['estudio_mercado'].replace('\n', '<br/>')
@@ -341,8 +352,8 @@ def generate_presentation_pdf(
     # ========================================
     # SECCIÓN: ANÁLISIS FINANCIERO
     # ========================================
+    story.append(BookmarkAnchor("sec_financiero"))
     story.append(_section_header_table("Análisis Financiero"))
-    story[-1]._bookmarkName = "sec_financiero"
     story.append(Spacer(1, 0.8 * cm))
 
     story.append(Paragraph(
@@ -395,18 +406,15 @@ def generate_presentation_pdf(
     # ========================================
     if fachada_images:
         story.append(PageBreak())
-        header = _section_header_table("Galería: Fachada")
-        header._bookmarkName = "sec_fachada"
-        story.append(header)
+        story.append(BookmarkAnchor("sec_fachada"))
+        story.append(_section_header_table("Galería: Fachada"))
         story.append(Spacer(1, 0.8 * cm))
-        # Add photos inline (not via _add_photo_gallery to keep bookmark)
         _add_photos_inline(story, fachada_images)
 
     if interior_images:
         story.append(PageBreak())
-        header = _section_header_table("Galería: Interior")
-        header._bookmarkName = "sec_interior"
-        story.append(header)
+        story.append(BookmarkAnchor("sec_interior"))
+        story.append(_section_header_table("Galería: Interior"))
         story.append(Spacer(1, 0.8 * cm))
         _add_photos_inline(story, interior_images)
 
@@ -415,9 +423,8 @@ def generate_presentation_pdf(
     # ========================================
     if text_sections.get('gestor'):
         story.append(PageBreak())
-        header = _section_header_table("Gestor")
-        header._bookmarkName = "sec_gestor"
-        story.append(header)
+        story.append(BookmarkAnchor("sec_gestor"))
+        story.append(_section_header_table("Gestor"))
         story.append(Spacer(1, 0.8 * cm))
         
         gestor_text = text_sections['gestor'].replace('\n', '<br/>')
@@ -428,9 +435,8 @@ def generate_presentation_pdf(
     # ========================================
     if text_sections.get('riesgos'):
         story.append(PageBreak())
-        header = _section_header_table("Riesgos")
-        header._bookmarkName = "sec_riesgos"
-        story.append(header)
+        story.append(BookmarkAnchor("sec_riesgos"))
+        story.append(_section_header_table("Riesgos"))
         story.append(Spacer(1, 0.8 * cm))
         
         riesgos_text = text_sections['riesgos'].replace('\n', '<br/>')
@@ -441,9 +447,8 @@ def generate_presentation_pdf(
     # ========================================
     if viviendas or garajes or trasteros:
         story.append(PageBreak())
-        header = _section_header_table("Anexos: Listado de Unidades")
-        header._bookmarkName = "sec_anexos"
-        story.append(header)
+        story.append(BookmarkAnchor("sec_anexos"))
+        story.append(_section_header_table("Anexos: Listado de Unidades"))
         story.append(Spacer(1, 0.8 * cm))
 
         _create_property_table(story, "Viviendas", viviendas, styles)
