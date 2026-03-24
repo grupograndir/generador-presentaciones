@@ -154,15 +154,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(errorMsg);
             }
 
-            const blob = await response.blob();
+            // Descargar el PDF correctamente
+            const arrayBuffer = await response.arrayBuffer();
+            const blob = new Blob([arrayBuffer], { type: 'application/pdf' });
+            const fileName = `Informe_Viabilidad_${projectTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`;
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.style.display = 'none';
             a.href = url;
-            a.download = `Informe_Viabilidad_${projectTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`;
+            a.download = fileName;
+            a.style.display = 'none';
             document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
+            // setTimeout para compatibilidad con Safari
+            setTimeout(() => {
+                a.click();
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                }, 250);
+            }, 0);
 
             showStatus('¡Presentación generada y descargada con éxito!', 'success');
         } catch (error) {
