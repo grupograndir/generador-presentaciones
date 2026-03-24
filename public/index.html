@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Presentaciones - Grupo Grandir</title>
+    <meta name="description"
+        content="Genera informes de viabilidad a partir de datos Excel para inversores inmobiliarios.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Generador de Informes de Viabilidad</h1>
+            <p>Sube los archivos necesarios para construir la presentación a inversores</p>
+        </header>
+
+        <form id="presentationForm" class="dashboard-grid">
+            <!-- Sección 1: Excel -->
+            <div class="card excel-section">
+                <div class="card-icon">📊</div>
+                <h2>Archivo Excel</h2>
+                <p>Sube el archivo Excel de viabilidad con los datos del proyecto.</p>
+                <div class="upload-area" id="excelDrop">
+                    <input type="file" id="excelFile" name="excelFile" accept=".xlsx, .xls" required>
+                    <label for="excelFile">Arrastra tu Excel aquí o haz clic para subir</label>
+                </div>
+            </div>
+
+            <!-- Sección 2: Textos -->
+            <div class="card text-section">
+                <div class="card-icon">📝</div>
+                <h2>Información del Proyecto</h2>
+                <div class="input-group">
+                    <label for="project_title">Título del Proyecto</label>
+                    <input type="text" id="project_title" name="project_title"
+                        placeholder="Ej: PROYECTO PALOMAR / ALMENARA" required>
+                </div>
+                <div class="input-group">
+                    <label for="gestor_name">Nombre del Gestor</label>
+                    <input type="text" id="gestor_name" name="gestor_name" placeholder="Ej: GRUPO GRANDIR" required>
+                </div>
+                <div class="input-group">
+                    <label for="project_description">Descripción Breve (opcional)</label>
+                    <textarea id="project_description" name="project_description" rows="3"
+                        placeholder="Descripción adicional del proyecto..."></textarea>
+                </div>
+            </div>
+
+            <!-- Sección 3: Fotos -->
+            <div class="card photo-section">
+                <div class="card-icon">📸</div>
+                <h2>Fotografías</h2>
+                <p>Sube hasta 3 fotografías representativas del activo (Renders, Planos, Alzados...)</p>
+                <div class="photos-grid">
+                    <div class="upload-area photo-drop">
+                        <input type="file" id="photo1" name="photo1" accept="image/*">
+                        <label for="photo1">Portada</label>
+                    </div>
+                    <div class="upload-area photo-drop">
+                        <input type="file" id="photo2" name="photo2" accept="image/*">
+                        <label for="photo2">Interior</label>
+                    </div>
+                    <div class="upload-area photo-drop">
+                        <input type="file" id="photo3" name="photo3" accept="image/*">
+                        <label for="photo3">Zonas comunes</label>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="action-bar">
+            <button id="generateBtn" class="btn-primary">
+                <span class="btn-text">Generar Presentación</span>
+                <span class="loader hidden"></span>
+            </button>
+        </div>
+
+        <div id="statusMessage" class="status-message hidden"></div>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+fastapi[all]
+pandas
+openpyxl
+reportlab
+pdfplumber
+python-multipart
+Pillow
