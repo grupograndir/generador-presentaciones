@@ -18,55 +18,106 @@
             <p>Sube los archivos necesarios para construir la presentación a inversores</p>
         </header>
 
-        <form id="presentationForm" class="dashboard-grid">
-            <!-- Sección 1: Excel -->
-            <div class="card excel-section">
-                <div class="card-icon">📊</div>
-                <h2>Archivo Excel</h2>
-                <p>Sube el archivo Excel de viabilidad con los datos del proyecto.</p>
-                <div class="upload-area" id="excelDrop">
-                    <input type="file" id="excelFile" name="excelFile" accept=".xlsx, .xls" required>
-                    <label for="excelFile">Arrastra tu Excel aquí o haz clic para subir</label>
+        <form id="presentationForm">
+            <!-- ROW 1: Excel + Título -->
+            <div class="dashboard-grid two-cols">
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h2>Archivo Excel</h2>
+                    <p>Sube el archivo de viabilidad con los datos financieros.</p>
+                    <div class="upload-area">
+                        <input type="file" id="excelFile" name="excelFile" accept=".xlsx,.xls" required>
+                        <label for="excelFile">Arrastra tu Excel aquí o haz clic</label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🏷️</div>
+                    <h2>Título del Proyecto</h2>
+                    <div class="input-group">
+                        <label for="project_title">Nombre del proyecto</label>
+                        <input type="text" id="project_title" name="project_title"
+                            placeholder="Ej: PROYECTO PALOMAR / ALMENARA" required>
+                    </div>
                 </div>
             </div>
 
-            <!-- Sección 2: Textos -->
-            <div class="card text-section">
-                <div class="card-icon">📝</div>
-                <h2>Información del Proyecto</h2>
-                <div class="input-group">
-                    <label for="project_title">Título del Proyecto</label>
-                    <input type="text" id="project_title" name="project_title"
-                        placeholder="Ej: PROYECTO PALOMAR / ALMENARA" required>
+            <!-- ROW 2: Fotos por categoría -->
+            <h2 class="section-divider">📸 Fotografías del Proyecto</h2>
+            <div class="dashboard-grid three-cols">
+                <!-- Portada -->
+                <div class="card photo-category-card">
+                    <div class="card-icon">🖼️</div>
+                    <h2>Portada</h2>
+                    <p>Foto principal de la presentación</p>
+                    <div class="photo-list" id="portada-list">
+                        <div class="upload-area photo-drop">
+                            <input type="file" name="portada" accept="image/*">
+                            <label>Haz clic o arrastra</label>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-photo" data-category="portada">+ Añadir foto</button>
                 </div>
-                <div class="input-group">
-                    <label for="gestor_name">Nombre del Gestor</label>
-                    <input type="text" id="gestor_name" name="gestor_name" placeholder="Ej: GRUPO GRANDIR" required>
+                <!-- Fachada -->
+                <div class="card photo-category-card">
+                    <div class="card-icon">🏠</div>
+                    <h2>Fachada</h2>
+                    <p>Fotos del exterior del edificio</p>
+                    <div class="photo-list" id="fachada-list">
+                        <div class="upload-area photo-drop">
+                            <input type="file" name="fachada" accept="image/*">
+                            <label>Haz clic o arrastra</label>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-photo" data-category="fachada">+ Añadir foto</button>
                 </div>
-                <div class="input-group">
-                    <label for="project_description">Descripción Breve (opcional)</label>
-                    <textarea id="project_description" name="project_description" rows="3"
-                        placeholder="Descripción adicional del proyecto..."></textarea>
+                <!-- Interior -->
+                <div class="card photo-category-card">
+                    <div class="card-icon">🛋️</div>
+                    <h2>Interior</h2>
+                    <p>Fotos del interior de las viviendas</p>
+                    <div class="photo-list" id="interior-list">
+                        <div class="upload-area photo-drop">
+                            <input type="file" name="interior" accept="image/*">
+                            <label>Haz clic o arrastra</label>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-photo" data-category="interior">+ Añadir foto</button>
                 </div>
             </div>
 
-            <!-- Sección 3: Fotos -->
-            <div class="card photo-section">
-                <div class="card-icon">📸</div>
-                <h2>Fotografías</h2>
-                <p>Sube hasta 3 fotografías representativas del activo (Renders, Planos, Alzados...)</p>
-                <div class="photos-grid">
-                    <div class="upload-area photo-drop">
-                        <input type="file" id="photo1" name="photo1" accept="image/*">
-                        <label for="photo1">Portada</label>
+            <!-- ROW 3: Secciones de texto -->
+            <h2 class="section-divider">📝 Secciones de Texto</h2>
+            <div class="dashboard-grid two-cols">
+                <div class="card">
+                    <div class="card-icon">📋</div>
+                    <h2>Resumen</h2>
+                    <div class="input-group">
+                        <textarea id="text_resumen" name="text_resumen" rows="5"
+                            placeholder="Resumen ejecutivo del proyecto..."></textarea>
                     </div>
-                    <div class="upload-area photo-drop">
-                        <input type="file" id="photo2" name="photo2" accept="image/*">
-                        <label for="photo2">Interior</label>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📈</div>
+                    <h2>Estudio de Mercado</h2>
+                    <div class="input-group">
+                        <textarea id="text_estudio" name="text_estudio" rows="5"
+                            placeholder="Análisis del mercado inmobiliario de la zona..."></textarea>
                     </div>
-                    <div class="upload-area photo-drop">
-                        <input type="file" id="photo3" name="photo3" accept="image/*">
-                        <label for="photo3">Zonas comunes</label>
+                </div>
+                <div class="card">
+                    <div class="card-icon">👤</div>
+                    <h2>Gestor</h2>
+                    <div class="input-group">
+                        <textarea id="text_gestor" name="text_gestor" rows="5"
+                            placeholder="Información sobre el gestor del proyecto..."></textarea>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚠️</div>
+                    <h2>Riesgos</h2>
+                    <div class="input-group">
+                        <textarea id="text_riesgos" name="text_riesgos" rows="5"
+                            placeholder="Análisis de riesgos del proyecto..."></textarea>
                     </div>
                 </div>
             </div>
