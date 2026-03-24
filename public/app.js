@@ -143,8 +143,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.detail || 'Error en la generación');
+                let errorMsg = 'Error en la generación';
+                try {
+                    const errorData = await response.json();
+                    errorMsg = errorData.detail || errorMsg;
+                } catch {
+                    const txt = await response.text();
+                    errorMsg = txt || errorMsg;
+                }
+                throw new Error(errorMsg);
             }
 
             const blob = await response.blob();
